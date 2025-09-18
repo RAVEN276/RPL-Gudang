@@ -1,306 +1,570 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>WMS ATK</title>
-
-  <!-- Font fallback (gg sans tidak open-source) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-    rel="stylesheet"
-  >
-
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sistem Manajemen Gudang ATK</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/feather-icons"></script>
 </head>
 <body>
-  <div class="app-bg"></div>
-
-  <aside class="sidebar acrylic">
-    <div class="brand">
-      <div class="logo">W</div>
-      <div class="brand-text">
-        <strong>Warehouse Management System ATK</strong>
+  <!-- Login -->
+  <div id="login-page" class="page active">
+    <div class="login-container">
+      <div class="login-card">
+        <div class="login-header">
+          <div class="logo">
+            <i data-feather="package"></i>
+            <span>SMG-ATK</span>
+          </div>
+          <h1>Selamat Datang Kembali!</h1>
+          <p>Masuk ke sistem manajemen gudang Anda</p>
+        </div>
+        <form id="login-form" class="login-form">
+          <div class="input-group">
+            <label>Username</label>
+            <input type="text" id="login-username" placeholder="Masukkan username" required />
+            <i data-feather="user" class="input-icon"></i>
+          </div>
+          <div class="input-group">
+            <label>Password</label>
+            <input type="password" id="login-password" placeholder="Masukkan password" required />
+            <i data-feather="lock" class="input-icon"></i>
+          </div>
+          <button type="submit" class="btn btn-primary">
+            <span>Masuk</span>
+            <i data-feather="arrow-right"></i>
+          </button>
+        </form>
+        <div class="login-demo">
+          <h4>Akun Demo:</h4>
+          <div class="demo-accounts">
+            <span class="demo-badge">admin/admin123</span>
+            <span class="demo-badge">staf/staf123</span>
+            <span class="demo-badge">manajer/manajer123</span>
+            <span class="demo-badge">produksi/produksi123</span>
+          </div>
+        </div>
       </div>
     </div>
+  </div>
 
-    <nav class="nav">
-      <button data-view="dashboard" class="nav-item active">Dashboard</button>
-      <button data-view="inventori" class="nav-item">Inventori</button>
-      <button data-view="transaksi-masuk" class="nav-item">Transaksi Masuk</button>
-      <button data-view="transaksi-keluar" class="nav-item">Transaksi Keluar</button>
-      <button data-view="laporan" class="nav-item">Laporan</button>
-      <button data-view="absensi" class="nav-item">Absensi</button>
-      <div class="nav-sep"></div>
-      <button data-view="login" class="nav-item">Ganti Role</button>
+  <!-- App -->
+  <div id="app" class="page">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <i data-feather="package"></i>
+          <span>SMG-ATK</span>
+        </div>
+      </div>
+
+      <div class="sidebar-content">
+        <div class="nav-section">
+          <h3>Utama</h3>
+          <ul id="menu" class="nav-menu">
+            <li data-target="dashboard" class="nav-item">
+              <i data-feather="home"></i>
+              <span>Dashboard</span>
+            </li>
+            <li class="role-admin role-manajer nav-item" data-target="laporan">
+              <i data-feather="file-text"></i>
+              <span>Laporan</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="nav-section role-admin">
+          <h3>Master Data</h3>
+          <ul class="nav-menu">
+            <li data-target="master-barang" class="nav-item">
+              <i data-feather="box"></i>
+              <span>Master Barang</span>
+            </li>
+            <li data-target="master-kategori" class="nav-item">
+              <i data-feather="tag"></i>
+              <span>Kategori</span>
+            </li>
+            <li data-target="master-pengguna" class="nav-item">
+              <i data-feather="users"></i>
+              <span>Pengguna</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="nav-section role-staf">
+          <h3>Transaksi</h3>
+          <ul class="nav-menu">
+            <li data-target="transaksi-masuk" class="nav-item">
+              <i data-feather="plus-circle"></i>
+              <span>Barang Masuk</span>
+            </li>
+            <li data-target="transaksi-keluar" class="nav-item">
+              <i data-feather="minus-circle"></i>
+              <span>Barang Keluar</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="nav-section role-manajer">
+          <h3>Verifikasi</h3>
+          <ul class="nav-menu">
+            <li data-target="verifikasi" class="nav-item">
+              <i data-feather="check-circle"></i>
+              <span>Verifikasi</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="nav-section role-produksi">
+          <h3>Produksi</h3>
+          <ul class="nav-menu">
+            <li data-target="produksi" class="nav-item">
+              <i data-feather="settings"></i>
+              <span>Ketersediaan</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="nav-section">
+          <h3>Riwayat</h3>
+          <ul class="nav-menu">
+            <li data-target="riwayat" class="nav-item">
+              <i data-feather="clock"></i>
+              <span>Riwayat</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <div class="user-avatar">
+            <i data-feather="user"></i>
+          </div>
+          <div class="user-details">
+            <span id="user-name" class="user-name">User</span>
+            <span id="user-role" class="user-role">Role</span>
+          </div>
+          <button id="btn-logout" class="logout-btn" title="Keluar">
+            <i data-feather="log-out"></i>
+          </button>
+        </div>
+      </div>
     </nav>
 
-    <footer class="sidebar-footer">
-      <div class="user-card">
-        <div class="avatar">A</div>
-        <div>
-          <div id="roleLabel" class="user-name">Role: Admin</div>
-          <div class="user-sub">Gudang ATK</div>
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <h1 id="page-title">Dashboard</h1>
         </div>
-      </div>
-    </footer>
-  </aside>
-
-  <main class="main">
-    <header class="topbar acrylic">
-      <div class="search">
-        <input id="searchInput" type="search" placeholder="Cari barang, transaksi…" />
-      </div>
-      <div class="topbar-actions">
-        <button id="themeToggle" class="btn ghost">Tema</button>
-        <button id="notifyBtn" class="btn outline">Notifikasi</button>
-        <button id="primaryAction" class="btn primary">Aksi Utama</button>
-      </div>
-    </header>
-
-    <section id="view-dashboard" class="view active">
-      <div class="page-title">
-        <h1>Dashboard</h1>
-        <p>Ringkasan inventori, peringatan stok rendah, dan aktivitas terbaru.</p>
-      </div>
-      <div class="grid grid-3">
-        <div class="card metric">
-          <div class="metric-label">Total SKU</div>
-          <div id="metricSKU" class="metric-value">0</div>
-        </div>
-        <div class="card metric">
-          <div class="metric-label">Total Stok</div>
-          <div id="metricStock" class="metric-value">0</div>
-        </div>
-        <div class="card metric">
-          <div class="metric-label">Peringatan Stok Rendah</div>
-          <div id="metricLow" class="metric-value warn">0</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-head">
-          <h3>Stok Rendah</h3>
-          <div>
-            <button class="btn ghost" id="refreshDashboard">Refresh</button>
+        <div class="topbar-right">
+          <div id="notif-bell" class="notification-btn" title="Notifikasi">
+            <i data-feather="bell"></i>
+            <span id="notif-count" class="notif-badge">0</span>
           </div>
         </div>
-        <div class="table-wrap">
-          <table class="table" id="lowStockTable">
-            <thead>
-              <tr>
-                <th>Kode</th>
-                <th>Nama</th>
-                <th>Kategori</th>
-                <th>Stok</th>
-                <th>Min</th>
-              </tr>
-            </thead>
-            <tbody><!-- filled by JS --></tbody>
-          </table>
-        </div>
-      </div>
-    </section>
+      </header>
 
-    <section id="view-inventori" class="view">
-      <div class="page-title">
-        <h1>Inventori</h1>
-        <p>Kelola bahan baku dan barang jadi, termasuk batch/serial number.</p>
-      </div>
-
-      <div class="card">
-        <div class="card-head">
-          <h3>Daftar Barang</h3>
-          <div class="actions">
-            <button id="btnAddItem" class="btn primary">Tambah</button>
+      <!-- Content Area -->
+      <div class="content">
+        <!-- Dashboard -->
+        <section id="dashboard" class="view active">
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon primary">
+                <i data-feather="package"></i>
+              </div>
+              <div class="stat-content">
+                <h3>Total Item</h3>
+                <div id="stat-total-item" class="stat-number">0</div>
+                <span class="stat-label">Barang terdaftar</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon success">
+                <i data-feather="layers"></i>
+              </div>
+              <div class="stat-content">
+                <h3>Stok Bahan Baku</h3>
+                <div id="stat-stok-baku" class="stat-number">0</div>
+                <span class="stat-label">Unit tersedia</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon info">
+                <i data-feather="archive"></i>
+              </div>
+              <div class="stat-content">
+                <h3>Stok Barang Jadi</h3>
+                <div id="stat-stok-jadi" class="stat-number">0</div>
+                <span class="stat-label">Unit tersedia</span>
+              </div>
+            </div>
+            <div class="stat-card warn">
+              <div class="stat-icon warning">
+                <i data-feather="alert-triangle"></i>
+              </div>
+              <div class="stat-content">
+                <h3>Stok Menipis</h3>
+                <div id="stat-low-stock" class="stat-number">0</div>
+                <span class="stat-label">Perlu perhatian</span>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="table-wrap">
-          <table class="table" id="invTable">
-            <thead>
-              <tr>
-                <th>Kode</th>
-                <th>Nama</th>
-                <th>Kategori</th>
-                <th>Tipe</th>
-                <th>Batch/Serial</th>
-                <th>Stok</th>
-                <th>Min</th>
-                <th>Aksi</th>
-              </tr>
-            </thead>
-            <tbody><!-- filled by JS --></tbody>
-          </table>
-        </div>
-      </div>
-    </section>
 
-    <section id="view-transaksi-masuk" class="view">
-      <div class="page-title">
-        <h1>Transaksi Masuk</h1>
-        <p>Catat barang masuk dari pemasok (stok bertambah).</p>
-      </div>
-
-      <div class="card">
-        <div class="card-head">
-          <h3>Tambah Transaksi Masuk</h3>
-        </div>
-        <form id="formIn" class="form grid grid-3">
-          <label>
-            Kode Barang
-            <input required name="kode" placeholder="BK-001" />
-          </label>
-          <label>
-            Jumlah
-            <input required type="number" name="qty" min="1" placeholder="100" />
-          </label>
-          <label>
-            Batch/Serial
-            <input name="batch" placeholder="LOT-2025-09" />
-          </label>
-          <div class="grid-span-3 right">
-            <button class="btn primary" type="submit">Simpan</button>
+          <div class="chart-container">
+            <div class="chart-header">
+              <h3><i data-feather="trending-up"></i> Grafik Stok</h3>
+              <span class="chart-subtitle">Visualisasi stok barang</span>
+            </div>
+            <div class="chart-content">
+              <canvas id="mini-chart" width="800" height="300"></canvas>
+            </div>
           </div>
-        </form>
-      </div>
+        </section>
 
-      <div class="card">
-        <div class="card-head">
-          <h3>Riwayat Masuk</h3>
-        </div>
-        <div class="table-wrap">
-          <table class="table" id="inTable">
-            <thead>
-              <tr>
-                <th>Tanggal</th>
-                <th>Kode</th>
-                <th>Jumlah</th>
-                <th>Batch/Serial</th>
-              </tr>
-            </thead>
-            <tbody><!-- filled by JS --></tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <section id="view-transaksi-keluar" class="view">
-      <div class="page-title">
-        <h1>Transaksi Keluar</h1>
-        <p>Catat barang keluar untuk produksi atau distribusi (stok berkurang).</p>
-      </div>
-
-      <div class="card">
-        <div class="card-head">
-          <h3>Tambah Transaksi Keluar</h3>
-        </div>
-        <form id="formOut" class="form grid grid-3">
-          <label>
-            Kode Barang
-            <input required name="kode" placeholder="BK-001" />
-          </label>
-          <label>
-            Jumlah
-            <input required type="number" name="qty" min="1" placeholder="50" />
-          </label>
-          <label>
-            Tujuan
-            <input name="tujuan" placeholder="Produksi/Distribusi" />
-          </label>
-          <div class="grid-span-3 right">
-            <button class="btn primary" type="submit">Simpan</button>
+        <!-- Laporan -->
+        <section id="laporan" class="view">
+          <div class="page-header">
+            <h2><i data-feather="file-text"></i> Laporan Inventori</h2>
+            <div class="page-actions">
+              <button id="btn-export-csv" class="btn btn-success">
+                <i data-feather="download"></i>
+                Export CSV
+              </button>
+              <button id="btn-export-json" class="btn btn-secondary">
+                <i data-feather="download"></i>
+                Export JSON
+              </button>
+            </div>
           </div>
-        </form>
-      </div>
+          <div class="table-container">
+            <table id="table-laporan" class="data-table">
+              <thead>
+                <tr>
+                  <th>Kode</th><th>Nama</th><th>Kategori</th><th>Tipe</th><th>Stok</th><th>Min</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
 
-      <div class="card">
-        <div class="card-head">
-          <h3>Riwayat Keluar</h3>
-        </div>
-        <div class="table-wrap">
-          <table class="table" id="outTable">
-            <thead>
-              <tr>
-                <th>Tanggal</th>
-                <th>Kode</th>
-                <th>Jumlah</th>
-                <th>Tujuan</th>
-              </tr>
-            </thead>
-            <tbody><!-- filled by JS --></tbody>
-          </table>
-        </div>
-      </div>
-    </section>
+        <!-- Master Barang -->
+        <section id="master-barang" class="view">
+          <div class="page-header">
+            <h2><i data-feather="box"></i> Master Barang</h2>
+          </div>
+          
+          <div class="form-container">
+            <form id="form-barang" class="form-modern">
+              <input type="hidden" id="barang-id"/>
+              <div class="form-row">
+                <div class="input-group">
+                  <label>Kode Barang</label>
+                  <input id="barang-kode" placeholder="Contoh: BB-PLS-01" required />
+                </div>
+                <div class="input-group">
+                  <label>Nama Barang</label>
+                  <input id="barang-nama" placeholder="Nama barang" required />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="input-group">
+                  <label>Kategori</label>
+                  <select id="barang-kategori" required></select>
+                </div>
+                <div class="input-group">
+                  <label>Tipe</label>
+                  <select id="barang-tipe" required>
+                    <option value="BAHAN_BAKU">Bahan Baku</option>
+                    <option value="BARANG_JADI">Barang Jadi</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="input-group">
+                  <label>Stok Minimum</label>
+                  <input id="barang-min" type="number" min="0" value="0" required />
+                </div>
+                <div class="input-group">
+                  <label>Barcode/QR</label>
+                  <input id="barang-barcode" placeholder="Opsional"/>
+                </div>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                  <i data-feather="save"></i>
+                  Simpan
+                </button>
+                <button type="button" id="barang-reset" class="btn btn-secondary">
+                  <i data-feather="refresh-cw"></i>
+                  Reset
+                </button>
+              </div>
+            </form>
+          </div>
 
-    <section id="view-laporan" class="view">
-      <div class="page-title">
-        <h1>Laporan</h1>
-        <p>Unduh laporan stok dan pergerakan barang (PDF/Excel — dummy export).</p>
-      </div>
+          <div class="table-container">
+            <div class="table-header">
+              <div class="search-container">
+                <i data-feather="search" class="search-icon"></i>
+                <input id="barang-cari" placeholder="Cari nama atau kode barang..." class="search-input" />
+              </div>
+            </div>
+            <table id="table-barang" class="data-table">
+              <thead>
+                <tr>
+                  <th>Kode</th><th>Nama</th><th>Kategori</th><th>Tipe</th><th>Stok</th><th>Min</th><th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
 
-      <div class="card">
-        <div class="card-head">
-          <h3>Ekspor Data</h3>
-        </div>
-        <div class="actions row">
-          <button id="exportCSV" class="btn outline">Export CSV</button>
-          <button id="exportJSON" class="btn outline">Export JSON</button>
-          <button id="exportPDF" class="btn outline">Export PDF (placeholder)</button>
-        </div>
-      </div>
-    </section>
+        <!-- Master Kategori -->
+        <section id="master-kategori" class="view">
+          <div class="page-header">
+            <h2><i data-feather="tag"></i> Master Kategori</h2>
+          </div>
+          <div class="form-container">
+            <form id="form-kategori" class="form-inline-modern">
+              <input type="hidden" id="kategori-id"/>
+              <div class="input-group">
+                <input id="kategori-nama" placeholder="Nama kategori" required />
+              </div>
+              <button type="submit" class="btn btn-primary">
+                <i data-feather="plus"></i>
+                Simpan
+              </button>
+              <button type="button" id="kategori-reset" class="btn btn-secondary">
+                <i data-feather="x"></i>
+                Reset
+              </button>
+            </form>
+          </div>
+          <div class="list-container">
+            <ul id="list-kategori" class="category-list"></ul>
+          </div>
+        </section>
 
-    <section id="view-absensi" class="view">
-      <div class="page-title">
-        <h1>Absensi</h1>
-        <p>Placeholder absensi staf gudang (check-in/out sederhana).</p>
-      </div>
+        <!-- Master Pengguna -->
+        <section id="master-pengguna" class="view">
+          <div class="page-header">
+            <h2><i data-feather="users"></i> Pengguna</h2>
+          </div>
+          <div class="form-container">
+            <form id="form-user" class="form-modern">
+              <input type="hidden" id="user-id"/>
+              <div class="form-row">
+                <div class="input-group">
+                  <label>Username</label>
+                  <input id="user-username" placeholder="Username unik" required />
+                </div>
+                <div class="input-group">
+                  <label>Nama Lengkap</label>
+                  <input id="user-nama" placeholder="Nama lengkap" required />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="input-group">
+                  <label>Peran</label>
+                  <select id="user-role" required>
+                    <option value="ADMIN">Admin Gudang</option>
+                    <option value="STAF">Staf Gudang</option>
+                    <option value="MANAJER">Manajer Gudang</option>
+                    <option value="PRODUKSI">Manajer Produksi</option>
+                  </select>
+                </div>
+                <div class="input-group">
+                  <label>Password</label>
+                  <input id="user-password" type="password" placeholder="Password" required />
+                </div>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                  <i data-feather="user-plus"></i>
+                  Simpan
+                </button>
+                <button type="button" id="user-reset" class="btn btn-secondary">
+                  <i data-feather="refresh-cw"></i>
+                  Reset
+                </button>
+              </div>
+            </form>
+          </div>
+          <div class="table-container">
+            <table id="table-user" class="data-table">
+              <thead>
+                <tr><th>Username</th><th>Nama</th><th>Peran</th><th>Aksi</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
 
-      <div class="card">
-        <div class="card-head">
-          <h3>Catat Absensi</h3>
-        </div>
-        <div class="actions row">
-          <button id="btnCheckIn" class="btn primary">Check-in</button>
-          <button id="btnCheckOut" class="btn outline">Check-out</button>
-        </div>
-        <div class="table-wrap">
-          <table class="table" id="absenTable">
-            <thead>
-              <tr>
-                <th>Waktu</th>
-                <th>Aksi</th>
-              </tr>
-            </thead>
-            <tbody><!-- filled by JS --></tbody>
-          </table>
-        </div>
-      </div>
-    </section>
+        <!-- Transaksi Masuk -->
+        <section id="transaksi-masuk" class="view">
+          <div class="page-header">
+            <h2><i data-feather="plus-circle"></i> Barang Masuk</h2>
+          </div>
+          <div class="form-container">
+            <form id="form-masuk" class="form-modern">
+              <div class="form-row">
+                <div class="input-group">
+                  <label>Tanggal</label>
+                  <input id="masuk-tgl" type="date" required />
+                </div>
+                <div class="input-group">
+                  <label>Barang</label>
+                  <select id="masuk-barang" required></select>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="input-group">
+                  <label>Jumlah</label>
+                  <input id="masuk-qty" type="number" min="1" placeholder="Jumlah barang" required />
+                </div>
+                <div class="input-group">
+                  <label>Batch/Serial</label>
+                  <input id="masuk-batch" placeholder="Contoh: BATCH-001"/>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="input-group full-width">
+                  <label>Sumber/Pemasok</label>
+                  <input id="masuk-sumber" placeholder="Nama pemasok"/>
+                </div>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn btn-success">
+                  <i data-feather="plus"></i>
+                  Catat Masuk
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
 
-    <section id="view-login" class="view">
-      <div class="page-title">
-        <h1>Pilih Role (Mock)</h1>
-        <p>Simulasi peran untuk menyesuaikan hak akses komponen UI.</p>
-      </div>
-      <div class="card">
-        <div class="actions row">
-          <button class="btn primary role" data-role="Admin">Admin Gudang</button>
-          <button class="btn outline role" data-role="Staf">Staf Gudang</button>
-          <button class="btn outline role" data-role="Manajer">Manajer Gudang</button>
-        </div>
-        <p class="muted">Perubahan role mempengaruhi visibilitas tombol CRUD dan aksi tertentu.</p>
-      </div>
-    </section>
+        <!-- Transaksi Keluar -->
+        <section id="transaksi-keluar" class="view">
+          <div class="page-header">
+            <h2><i data-feather="minus-circle"></i> Barang Keluar</h2>
+          </div>
+          <div class="form-container">
+            <form id="form-keluar" class="form-modern">
+              <div class="form-row">
+                <div class="input-group">
+                  <label>Tanggal</label>
+                  <input id="keluar-tgl" type="date" required />
+                </div>
+                <div class="input-group">
+                  <label>Barang</label>
+                  <select id="keluar-barang" required></select>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="input-group">
+                  <label>Jumlah</label>
+                  <input id="keluar-qty" type="number" min="1" placeholder="Jumlah barang" required />
+                </div>
+                <div class="input-group">
+                  <label>Batch/Serial</label>
+                  <input id="keluar-batch" placeholder="Opsional"/>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="input-group full-width">
+                  <label>Tujuan</label>
+                  <select id="keluar-tujuan" required>
+                    <option value="PRODUKSI">Produksi</option>
+                    <option value="DISTRIBUSI">Distribusi</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn btn-warning">
+                  <i data-feather="minus"></i>
+                  Catat Keluar
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
 
-    <footer class="footer muted">
-      © 2025 911 Company. 
-    </footer>
-  </main>
+        <!-- Verifikasi -->
+        <section id="verifikasi" class="view">
+          <div class="page-header">
+            <h2><i data-feather="check-circle"></i> Verifikasi Transaksi</h2>
+          </div>
+          <div class="table-container">
+            <table id="table-verifikasi" class="data-table">
+              <thead>
+                <tr><th>Tanggal</th><th>Jenis</th><th>Barang</th><th>Qty</th><th>Batch</th><th>Oleh</th><th>Aksi</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Produksi -->
+        <section id="produksi" class="view">
+          <div class="page-header">
+            <h2><i data-feather="settings"></i> Ketersediaan Bahan Produksi</h2>
+          </div>
+          <div class="table-container">
+            <table id="table-produksi" class="data-table">
+              <thead>
+                <tr><th>Kode</th><th>Nama</th><th>Stok</th><th>Min</th><th>Status</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Riwayat -->
+        <section id="riwayat" class="view">
+          <div class="page-header">
+            <h2><i data-feather="clock"></i> Riwayat Transaksi</h2>
+          </div>
+          <div class="table-container">
+            <div class="table-header">
+              <div class="filter-container">
+                <select id="riwayat-filter" class="filter-select">
+                  <option value="ALL">Semua</option>
+                  <option value="MASUK">Barang Masuk</option>
+                  <option value="KELUAR">Barang Keluar</option>
+                </select>
+              </div>
+              <div class="search-container">
+                <i data-feather="search" class="search-icon"></i>
+                <input id="riwayat-cari" placeholder="Cari barang/batch/oleh..." class="search-input" />
+              </div>
+            </div>
+            <table id="table-riwayat" class="data-table">
+              <thead>
+                <tr><th>Tanggal</th><th>Jenis</th><th>Barang</th><th>Qty</th><th>Batch</th><th>Info</th><th>Status</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
 
   <script src="app.js"></script>
+  <script>
+    // Initialize Feather Icons
+    document.addEventListener('DOMContentLoaded', function() {
+      feather.replace();
+    });
+  </script>
 </body>
 </html>
